@@ -1,12 +1,13 @@
 ---
-# updated version of GitHubActions_Demo3_NodeJS
-name: build nodeJS application
-on: 
- push:
-  branches:
-   - master
+# updated version of Demo4.2.2_Java_NodeJS_CI2.yml / GitHubActions_Demo4.2_NodeJS 
+# Demo_5 is for usng needs keyword, taking backup of test Report + Build files artifact after running tests
+name: needs keyword - nodeJS application
+on: workflow_dispatch
+# on: 
+#  push:
+#   branches: master
 jobs: 
-  buildJob:
+  job_test:
     runs-on: ubuntu-latest 
     steps: 
       - name: Clone the Repo 
@@ -20,9 +21,21 @@ jobs:
         run: npm ci 
       - name: Run tests 
         run: npm test
+  jobs_build:
+    needs: job_test 
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Clone the Repo 
+        uses: actions/checkout@v5
+      - name: Install nodejs
+        uses: actions/setup-node@v5
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
       - name: Build code 
         run: npm run build
-
       - name: upload Test & Build reports to github repo 
         uses: actions/upload-artifact@v4
         with: 
