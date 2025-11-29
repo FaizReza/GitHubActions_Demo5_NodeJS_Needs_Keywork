@@ -1,37 +1,29 @@
 ---
-# GitHubActions_Demo3_NodeJS
-name: Build NodeJS Application
-on:
-  push:
-    branches:
-      - master
-    branches_ignore:
-    - dev
-    - test
-  pull_request:
-    branches:
-    - master
-jobs:
-  job1_Build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone the Repository
-        uses: actions/checkout@v5
-      - name: Install NodeJS
-        uses: actions/setup-node@v6
+# updated version of GitHubActions_Demo3_NodeJS
+name: build nodeJS application
+on: 
+ push:
+  branches:
+   - master
+jobs: 
+  buildJob:
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Clone the Repo 
+        uses: actions/checkout@v5 
+      - name: Install nodejs
+        uses: actions/setup-node@v5
         with:
-          # node-version: '24'
           node-version: '18'
           cache: 'npm'
       - name: Install dependencies
-        run: npm ci
-        # run: npm install # alternative to npm ci
-        # reference for package.json: https://github.com/FaizReza/Nodejs-GithubActions/blob/master/package.json
-        #  dependencies are listed in package.json file
-      - name: Run Tests/Execute Test Cases
+        run: npm ci 
+      - name: Run tests 
         run: npm test
-      - name: Build Application/Code
-        run: npm run build
-      - name: Deploy Application/Code
-        run: echo "Deploying the application..."
-      # Add your deployment commands here
+      - name: upload the report to github repo 
+        uses: actions/upload-artifact@v4
+        with: 
+         name: upload test.json file
+         path: /home/runner/work/Nodejs-GithubActions/Nodejs-GithubActions/test.json
+      - name: Build code 
+        run: npm run build 
