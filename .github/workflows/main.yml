@@ -44,7 +44,8 @@ jobs:
       - name: Build Files to github repo 
         uses: actions/upload-artifact@v4
         with: 
-         name: Build files
+         # name: Build files
+         name: Test Report
          path: |
           dist/assets/logo.76a8d26b.png 
           dist/index.html
