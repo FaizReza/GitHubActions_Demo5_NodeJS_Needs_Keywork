@@ -1,6 +1,6 @@
 ---
 # updated version of Demo4.2.2_Java_NodeJS_CI2.yml / GitHubActions_Demo4.2_NodeJS 
-# Demo_5 is for usng needs keyword, taking backup of test Report + Build files artifact after running tests
+# Demo_5 is for uisng needs keyword, taking backup of test Report + Build files artifact after running tests
 name: needs keyword - nodeJS application
 on: workflow_dispatch
 # on: 
@@ -21,6 +21,11 @@ jobs:
         run: npm ci 
       - name: Run tests 
         run: npm test
+      - name: Test reports to github repo 
+        uses: actions/upload-artifact@v4
+        with: 
+         name: Test Report
+         path: /home/runner/work/GitHubActions_Demo5_NodeJS_Needs_Keywork/GitHubActions_Demo5_NodeJS_Needs_Keywork/test.json
   jobs_build:
     needs: job_test 
     runs-on: ubuntu-latest 
@@ -36,12 +41,11 @@ jobs:
         run: npm ci
       - name: Build code 
         run: npm run build
-      - name: upload Test & Build reports to github repo 
+      - name: Build Files to github repo 
         uses: actions/upload-artifact@v4
         with: 
-         name: upload files
+         name: Build files
          path: |
-          /home/runner/work/GitHubActions_Demo4.2_NodeJS_Upload_Artifact/GitHubActions_Demo4.2_NodeJS_Upload_Artifact/test.json
           dist/assets/logo.76a8d26b.png 
           dist/index.html
           dist/assets/index.34ed278d.css
